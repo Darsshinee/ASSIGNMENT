@@ -2,46 +2,41 @@ import java.util.Scanner;
 
 public class ASSIGNMENT {
 
-    public static void checkTypingAccuracy(String original, String typed) {
+    public static void findLongestStreak(String signalLog) {
 
-        int matched = 0;
-        int firstMismatch = -1;
+        char currentColor = signalLog.charAt(0);
+        int currentCount = 1;
 
-        for (int i = 0; i < original.length(); i++) {
+        char longestColor = currentColor;
+        int longestCount = 1;
 
-            if (original.charAt(i) == typed.charAt(i)) {
-                matched++;
-            } else if (firstMismatch == -1) {
-                firstMismatch = i;
+        for (int i = 1; i < signalLog.length(); i++) {
+
+            if (signalLog.charAt(i) == currentColor) {
+                currentCount++;
+            } else {
+                currentColor = signalLog.charAt(i);
+                currentCount = 1;
+            }
+
+            if (currentCount > longestCount) {
+                longestCount = currentCount;
+                longestColor = currentColor;
             }
         }
 
-        double accuracy = (matched * 100.0) / original.length();
-
-        System.out.println("Matched: " + matched + "/" + original.length());
-        System.out.printf("Accuracy: %.2f%%\n", accuracy);
-
-        if (firstMismatch == -1) {
-            System.out.println("No Mismatches");
-        } else {
-            System.out.println("First Mismatch at position "
-                    + (firstMismatch + 1)
-                    + " ('" + original.charAt(firstMismatch)
-                    + "' vs '" + typed.charAt(firstMismatch) + "')");
-        }
+        System.out.println("Longest Streak: '" + longestColor
+                + "' repeated " + longestCount + " times");
     }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter original text: ");
-        String original = sc.nextLine();
+        System.out.print("Enter signal log: ");
+        String signalLog = sc.nextLine();
 
-        System.out.print("Enter typed text: ");
-        String typed = sc.nextLine();
-
-        checkTypingAccuracy(original, typed);
+        findLongestStreak(signalLog);
 
         sc.close();
     }
