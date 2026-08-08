@@ -2,41 +2,69 @@ import java.util.Scanner;
 
 public class ASSIGNMENT {
 
-    public static void findLongestStreak(String signalLog) {
+    public static void analyzeInventory(int[] sectionA, int[] sectionB) {
 
-        char currentColor = signalLog.charAt(0);
-        int currentCount = 1;
+        int totalA = 0;
+        int totalB = 0;
 
-        char longestColor = currentColor;
-        int longestCount = 1;
+        // Calculate totals
+        for (int i = 0; i < sectionA.length; i++) {
+            totalA += sectionA[i];
+            totalB += sectionB[i];
+        }
 
-        for (int i = 1; i < signalLog.length(); i++) {
+        // Find highest quantity and its index
+        int highest = sectionA[0];
+        int highestIndex = 0;
 
-            if (signalLog.charAt(i) == currentColor) {
-                currentCount++;
-            } else {
-                currentColor = signalLog.charAt(i);
-                currentCount = 1;
+        for (int i = 0; i < sectionA.length; i++) {
+
+            if (sectionA[i] > highest) {
+                highest = sectionA[i];
+                highestIndex = i;
             }
 
-            if (currentCount > longestCount) {
-                longestCount = currentCount;
-                longestColor = currentColor;
+            if (sectionB[i] > highest) {
+                highest = sectionB[i];
+                highestIndex = i;
             }
         }
 
-        System.out.println("Longest Streak: '" + longestColor
-                + "' repeated " + longestCount + " times");
+        // Print totals and status
+        System.out.print("Section A Total: " + totalA);
+        System.out.print(" | Section B Total: " + totalB);
+
+        if (totalA == totalB) {
+            System.out.print(" | Status: Balanced");
+        } else {
+            System.out.print(" | Status: Not Balanced");
+        }
+
+        System.out.println(" | Highest Quantity: " + highest
+                + " (Section index: " + highestIndex + ")");
     }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter signal log: ");
-        String signalLog = sc.nextLine();
+        System.out.print("Enter array size: ");
+        int n = sc.nextInt();
 
-        findLongestStreak(signalLog);
+        int[] sectionA = new int[n];
+        int[] sectionB = new int[n];
+
+        System.out.println("Enter Section A quantities:");
+        for (int i = 0; i < n; i++) {
+            sectionA[i] = sc.nextInt();
+        }
+
+        System.out.println("Enter Section B quantities:");
+        for (int i = 0; i < n; i++) {
+            sectionB[i] = sc.nextInt();
+        }
+
+        analyzeInventory(sectionA, sectionB);
 
         sc.close();
     }
